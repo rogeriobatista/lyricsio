@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <!-- Browser Chrome -->
+  <rect width="1280" height="800" fill="#1a1a2e"/>
+  
+  <!-- Browser Top Bar -->
+  <rect width="1280" height="40" fill="#2d2d44"/>
+  <circle cx="20" cy="20" r="6" fill="#ff5f57"/>
+  <circle cx="40" cy="20" r="6" fill="#febc2e"/>
+  <circle cx="60" cy="20" r="6" fill="#28c840"/>
+  <rect x="100" y="10" width="400" height="20" rx="4" fill="#1a1a2e"/>
+  <text x="120" y="25" font-family="Arial" font-size="12" fill="#888">youtube.com/watch?v=...</text>
+  
+  <!-- YouTube Area -->
+  <rect x="0" y="40" width="1280" height="760" fill="#0f0f0f"/>
+  
+  <!-- Video Player Area (Full Width) -->
+  <rect x="40" y="60" width="1200" height="675" fill="#000" rx="8"/>
+  
+  <!-- Video Content Simulation -->
+  <rect x="40" y="60" width="1200" height="675" fill="#111"/>
+  
+  <!-- Karaoke Overlay -->
+  <rect x="140" y="550" width="1000" height="150" rx="15" fill="rgba(0,0,0,0.85)"/>
+  
+  <!-- Previous Line (dimmed) -->
+  <text x="640" y="590" font-family="Arial" font-size="24" fill="#666" text-anchor="middle">Caught in a landslide</text>
+  
+  <!-- Current Line (highlighted) -->
+  <text x="640" y="640" font-family="Arial" font-size="36" fill="#feca57" text-anchor="middle" font-weight="bold">No escape from reality</text>
+  
+  <!-- Next Line (dimmed) -->
+  <text x="640" y="685" font-family="Arial" font-size="24" fill="#666" text-anchor="middle">Open your eyes</text>
+  
+  <!-- Sync indicator -->
+  <rect x="560" y="700" width="160" height="24" rx="12" fill="rgba(255,107,107,0.3)"/>
+  <text x="640" y="717" font-family="Arial" font-size="12" fill="#ff6b6b" text-anchor="middle">🎤 Synced Lyrics Active</text>
+  
+  <!-- LyricsIO Mini Panel (minimized) -->
+  <rect x="1120" y="70" width="110" height="40" rx="8" fill="#1e1e2e"/>
+  <circle cx="1140" cy="90" r="12" fill="#ff6b6b"/>
+  <polygon points="1136,84 1136,96 1146,90" fill="white"/>
+  <text x="1160" y="95" font-family="Arial" font-size="12" fill="#888">LyricsIO</text>
+</svg>

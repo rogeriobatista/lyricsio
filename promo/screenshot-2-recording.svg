@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <!-- Browser Chrome -->
+  <rect width="1280" height="800" fill="#1a1a2e"/>
+  
+  <!-- Browser Top Bar -->
+  <rect width="1280" height="40" fill="#2d2d44"/>
+  <circle cx="20" cy="20" r="6" fill="#ff5f57"/>
+  <circle cx="40" cy="20" r="6" fill="#febc2e"/>
+  <circle cx="60" cy="20" r="6" fill="#28c840"/>
+  <rect x="100" y="10" width="400" height="20" rx="4" fill="#1a1a2e"/>
+  <text x="120" y="25" font-family="Arial" font-size="12" fill="#888">youtube.com/watch?v=...</text>
+  
+  <!-- YouTube Area (left side) -->
+  <rect x="0" y="40" width="920" height="760" fill="#0f0f0f"/>
+  
+  <!-- Video Player Area -->
+  <rect x="20" y="60" width="880" height="495" fill="#000" rx="8"/>
+  <text x="460" y="320" font-family="Arial" font-size="48" fill="#333" text-anchor="middle">▶</text>
+  
+  <!-- Video Title -->
+  <text x="20" y="590" font-family="Arial" font-size="20" fill="#fff" font-weight="bold">New Indie Song - Unknown Artist</text>
+  <text x="20" y="615" font-family="Arial" font-size="14" fill="#aaa">Indie Music • 50K views • 2 days ago</text>
+  
+  <!-- LyricsIO Panel - Recording State -->
+  <rect x="930" y="50" width="340" height="700" rx="12" fill="#1e1e2e"/>
+  
+  <!-- Panel Header -->
+  <rect x="930" y="50" width="340" height="50" rx="12" fill="#252536"/>
+  <circle cx="960" cy="75" r="15" fill="#ff6b6b"/>
+  <polygon points="955,68 955,82 968,75" fill="white"/>
+  <text x="985" y="82" font-family="Arial" font-size="18" fill="#ff6b6b" font-weight="bold">LyricsIO</text>
+  
+  <!-- Recording Overlay -->
+  <rect x="945" y="115" width="310" height="400" rx="10" fill="rgba(0,0,0,0.9)"/>
+  
+  <!-- Pulsing Microphone -->
+  <circle cx="1100" cy="250" r="60" fill="rgba(255,107,107,0.2)"/>
+  <circle cx="1100" cy="250" r="45" fill="rgba(255,107,107,0.3)"/>
+  <circle cx="1100" cy="250" r="30" fill="#ff6b6b"/>
+  <rect x="1092" y="235" width="16" height="25" rx="8" fill="white"/>
+  <rect x="1095" y="265" width="10" height="8" fill="white"/>
+  <rect x="1097" y="273" width="6" height="10" fill="white"/>
+  
+  <!-- Recording Text -->
+  <text x="1100" y="340" font-family="Arial" font-size="20" fill="#ff6b6b" text-anchor="middle" font-weight="bold">🎵 AI is listening...</text>
+  <text x="1100" y="370" font-family="Arial" font-size="14" fill="#ccc" text-anchor="middle">Recording song for lyrics generation</text>
+  
+  <!-- Progress Bar -->
+  <rect x="970" y="400" width="260" height="8" rx="4" fill="#333"/>
+  <rect x="970" y="400" width="130" height="8" rx="4" fill="#ff6b6b"/>
+  
+  <!-- Time -->
+  <text x="1100" y="430" font-family="Arial" font-size="14" fill="#888" text-anchor="middle">1:45 / 3:30</text>
+  
+  <!-- Stop Button -->
+  <rect x="1020" y="460" width="160" height="40" rx="8" fill="#ff6b6b"/>
+  <text x="1100" y="487" font-family="Arial" font-size="14" fill="white" text-anchor="middle">⏹ Stop Recording</text>
+  
+  <!-- Warning -->
+  <text x="1100" y="550" font-family="Arial" font-size="11" fill="#666" text-anchor="middle">⚠️ Please don't close this tab</text>
+  
+  <!-- Bottom Status -->
+  <text x="1100" y="680" font-family="Arial" font-size="12" fill="#ff6b6b" text-anchor="middle">🔴 Recording... 1:45 remaining</text>
+  <text x="1100" y="720" font-family="Arial" font-size="11" fill="#666" text-anchor="middle">Powered by AI</text>
+</svg>
