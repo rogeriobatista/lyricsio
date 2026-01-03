@@ -21,8 +21,14 @@
 }
 
 #lyricsio-panel.lyricsio-minimized {
-  max-height: 52px;
+  max-height: 52px !important;
+  min-height: unset !important;
   overflow: hidden;
+}
+
+#lyricsio-panel.lyricsio-recording {
+  max-height: 90vh;
+  min-height: 520px;
 }
 
 #lyricsio-panel.lyricsio-minimized .lyricsio-content,
@@ -593,7 +599,6 @@
   left: -16px;
   right: -16px;
   bottom: -16px;
-  min-height: 420px;
   background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
   display: flex;
   flex-direction: column;

@@ -37,14 +37,18 @@ class LyricsIO {
     this.progressInterval = null;
     this.videoEndHandler = null;
     this.isFetching = false;
+    this.language = 'en';
     
     this.init();
   }
 
   async init() {
     // Load settings
-    const stored = await chrome.storage.sync.get(['autoDetect', 'showPanel', 'darkTheme', 'showOverlay']);
+    const stored = await chrome.storage.sync.get(['autoDetect', 'showPanel', 'darkTheme', 'showOverlay', 'language']);
     this.settings = { ...this.settings, ...stored };
+    
+    // Set language
+    this.language = stored.language || detectBrowserLanguage();
 
     // Create the lyrics panel
     this.createPanel();
@@ -63,6 +67,11 @@ class LyricsIO {
         sendResponse({ success: true });
       } else if (request.type === 'SETTINGS_UPDATED') {
         this.settings = request.settings;
+        // Update language if changed
+        if (request.settings.language && request.settings.language !== this.language) {
+          this.language = request.settings.language;
+          this.applyPanelTranslations();
+        }
         this.updatePanelVisibility();
         sendResponse({ success: true });
       }
@@ -114,18 +123,18 @@ class LyricsIO {
           <span>LyricsIO</span>
         </div>
         <div class="lyricsio-controls">
-          <button class="lyricsio-btn lyricsio-refresh" title="Refresh lyrics">
+          <button class="lyricsio-btn lyricsio-refresh" data-i18n-title="refreshLyrics">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M23 4v6h-6M1 20v-6h6"/>
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
             </svg>
           </button>
-          <button class="lyricsio-btn lyricsio-minimize" title="Minimize">
+          <button class="lyricsio-btn lyricsio-minimize" data-i18n-title="minimize">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
           </button>
-          <button class="lyricsio-btn lyricsio-close" title="Close">
+          <button class="lyricsio-btn lyricsio-close" data-i18n-title="close">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"/>
               <line x1="6" y1="6" x2="18" y2="18"/>
@@ -134,7 +143,7 @@ class LyricsIO {
         </div>
       </div>
       <div class="lyricsio-song-info">
-        <div class="lyricsio-song-title">Detecting song...</div>
+        <div class="lyricsio-song-title" data-i18n="detectingSong">${t('detectingSong', this.language)}</div>
       </div>
       <div class="lyricsio-content">
         <div class="lyricsio-placeholder">
@@ -143,34 +152,34 @@ class LyricsIO {
             <circle cx="6" cy="18" r="3"/>
             <circle cx="18" cy="16" r="3"/>
           </svg>
-          <p>Play a song to see lyrics</p>
+          <p data-i18n="playSongToSeeLyrics">${t('playSongToSeeLyrics', this.language)}</p>
         </div>
       </div>
       <div class="lyricsio-footer">
         <div class="lyricsio-footer-controls">
-          <button class="lyricsio-generate-btn" title="Generate lyrics from audio">
+          <button class="lyricsio-generate-btn" data-i18n-title="generateFromAudio">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
               <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
               <line x1="12" y1="19" x2="12" y2="23"/>
               <line x1="8" y1="23" x2="16" y2="23"/>
             </svg>
-            <span>Generate</span>
+            <span data-i18n="generate">${t('generate', this.language)}</span>
           </button>
           <div class="lyricsio-source-toggle" style="display: none;">
             <button class="lyricsio-source-btn active" data-source="api">API</button>
-            <button class="lyricsio-source-btn" data-source="generated">AI Generated</button>
-            <button class="lyricsio-publish-btn" style="display: none;" title="Publish these lyrics to help others find them">
+            <button class="lyricsio-source-btn" data-source="generated" data-i18n="aiGenerated">${t('aiGenerated', this.language)}</button>
+            <button class="lyricsio-publish-btn" style="display: none;" data-i18n-title="publishToHelp">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
                 <polyline points="16 6 12 2 8 6"/>
                 <line x1="12" y1="2" x2="12" y2="15"/>
               </svg>
-              Publish
+              <span data-i18n="publish">${t('publish', this.language)}</span>
             </button>
           </div>
         </div>
-        <span class="lyricsio-status">Powered by AI</span>
+        <span class="lyricsio-status" data-i18n="poweredByAI">${t('poweredByAI', this.language)}</span>
       </div>
     `;
 
@@ -288,6 +297,28 @@ class LyricsIO {
 
     this.panel.className = this.panel.className.replace(/lyricsio-(dark|light)/, '');
     this.panel.classList.add(this.settings.darkTheme ? 'lyricsio-dark' : 'lyricsio-light');
+  }
+
+  applyPanelTranslations() {
+    if (!this.panel) return;
+    
+    // Apply translations to elements with data-i18n attribute
+    this.panel.querySelectorAll('[data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      const translation = t(key, this.language);
+      if (translation) {
+        element.textContent = translation;
+      }
+    });
+    
+    // Apply translations to title attributes
+    this.panel.querySelectorAll('[data-i18n-title]').forEach(element => {
+      const key = element.getAttribute('data-i18n-title');
+      const translation = t(key, this.language);
+      if (translation) {
+        element.title = translation;
+      }
+    });
   }
 
   observeVideoChanges() {
@@ -795,6 +826,7 @@ class LyricsIO {
       clearInterval(this.progressInterval);
       this.updateGenerateButton(false);
       this.showRecordingOverlay(false);
+      this.panel.classList.remove('lyricsio-recording');
       
       // Remove video end listener
       const video = document.querySelector('video');
@@ -814,6 +846,13 @@ class LyricsIO {
     const existing = content.querySelector('.lyricsio-recording-overlay');
     if (existing) existing.remove();
     
+    // Toggle recording class for expanded height
+    if (show) {
+      this.panel.classList.add('lyricsio-recording');
+    } else {
+      this.panel.classList.remove('lyricsio-recording');
+    }
+    
     if (show) {
       const mins = Math.floor(totalSeconds / 60);
       const secs = Math.floor(totalSeconds % 60);
@@ -831,8 +870,8 @@ class LyricsIO {
             </svg>
           </div>
         </div>
-        <div class="lyricsio-recording-title">🎵 AI is listening...</div>
-        <div class="lyricsio-recording-subtitle">Recording song for lyrics generation</div>
+        <div class="lyricsio-recording-title">${t('aiListening', this.language)}</div>
+        <div class="lyricsio-recording-subtitle">${t('recordingForLyrics', this.language)}</div>
         <div class="lyricsio-recording-timer">
           <span class="lyricsio-recording-elapsed">0:00</span>
           <span class="lyricsio-recording-separator"> / </span>
@@ -841,8 +880,8 @@ class LyricsIO {
         <div class="lyricsio-recording-progress">
           <div class="lyricsio-recording-progress-bar"></div>
         </div>
-        <div class="lyricsio-recording-warning">⚠️ Don't close this tab or navigate away!</div>
-        <button class="lyricsio-recording-stop">Stop Recording Early</button>
+        <div class="lyricsio-recording-warning">${t('dontCloseTab', this.language)}</div>
+        <button class="lyricsio-recording-stop">${t('stopRecording', this.language)}</button>
       `;
       
       content.appendChild(overlay);

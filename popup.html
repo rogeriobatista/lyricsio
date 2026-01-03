@@ -211,6 +211,47 @@
     .info a:hover {
       text-decoration: underline;
     }
+
+    /* Language selector styles */
+    .language-selector {
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .language-selector label {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .language-dropdown {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+    }
+
+    .language-dropdown:focus {
+      outline: none;
+      border-color: #ff6b6b;
+    }
+
+    .language-dropdown option {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
@@ -228,31 +269,44 @@
     <h1>LyricsIO</h1>
   </div>
 
+  <div class="language-selector">
+    <label data-i18n="language">Language</label>
+    <select class="language-dropdown" id="languageSelect">
+      <option value="en">🇺🇸 English</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="pt">🇧🇷 Português</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="zh">🇨🇳 中文</option>
+      <option value="it">🇮🇹 Italiano</option>
+    </select>
+  </div>
+
   <div class="section">
-    <div class="section-title">Settings</div>
+    <div class="section-title" data-i18n="settings">Settings</div>
     <div class="toggle-group">
-      <span>Auto-detect songs</span>
+      <span data-i18n="autoDetect">Auto-detect songs</span>
       <label class="toggle">
         <input type="checkbox" id="autoDetect" checked>
         <span class="toggle-slider"></span>
       </label>
     </div>
     <div class="toggle-group">
-      <span>Show lyrics panel</span>
+      <span data-i18n="showPanel">Show lyrics panel</span>
       <label class="toggle">
         <input type="checkbox" id="showPanel" checked>
         <span class="toggle-slider"></span>
       </label>
     </div>
     <div class="toggle-group">
-      <span>Dark theme</span>
+      <span data-i18n="darkTheme">Dark theme</span>
       <label class="toggle">
         <input type="checkbox" id="darkTheme" checked>
         <span class="toggle-slider"></span>
       </label>
     </div>
     <div class="toggle-group">
-      <span>🎤 Synced lyrics overlay</span>
+      <span data-i18n="syncedOverlay">🎤 Synced lyrics overlay</span>
       <label class="toggle">
         <input type="checkbox" id="showOverlay" checked>
         <span class="toggle-slider"></span>
@@ -260,8 +314,8 @@
     </div>
   </div>
 
-  <button class="btn btn-primary" id="saveBtn">Save Settings</button>
-  <button class="btn btn-secondary" id="fetchLyricsBtn">Fetch Lyrics Now</button>
+  <button class="btn btn-primary" id="saveBtn" data-i18n="saveSettings">Save Settings</button>
+  <button class="btn btn-secondary" id="fetchLyricsBtn" data-i18n="getLyrics">Get Lyrics for Current Video</button>
 
   <div class="status" id="status"></div>
 
@@ -272,6 +326,7 @@
     Get your FREE API key at <a href="https://console.groq.com/keys" target="_blank">Groq Console</a>
   </div>
 
+  <script src="locales.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>
