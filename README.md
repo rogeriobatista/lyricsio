@@ -1,96 +1,127 @@
-# LyricsIO - YouTube Lyrics Finder
+# 🎵 LyricsIO
 
-A Chrome extension that automatically detects songs playing on YouTube and displays lyrics using AI.
+**See lyrics for any YouTube music video** — with AI-powered generation and karaoke mode.
 
-![LyricsIO Preview](preview.png)
+<p align="center">
+  <img src="promo/screenshot-1-main.png" alt="LyricsIO Preview" width="600">
+</p>
 
-## Features
+## ✨ Features
 
-- 🎵 **Auto-detect songs** - Automatically identifies the song playing on YouTube
-- 🤖 **AI-powered lyrics** - Uses OpenAI's GPT model to fetch accurate lyrics
-- 🎨 **Beautiful UI** - Modern, draggable lyrics panel with dark/light themes
-- ⚡ **Real-time updates** - Lyrics update automatically when you switch videos
-- 🔧 **Customizable** - Toggle auto-detection, panel visibility, and theme
+| Feature | Description |
+|---------|-------------|
+| 🎵 **Auto-detect** | Automatically identifies songs and fetches lyrics |
+| 🤖 **AI Generate** | Generate lyrics from audio when none are found |
+| 🎤 **Karaoke Mode** | Synced lyrics overlay that follows the music |
+| 📤 **Publish** | Contribute lyrics to help the community |
+| 🌍 **7 Languages** | EN, ES, PT, FR, DE, ZH, IT |
+| 🎨 **Beautiful UI** | Modern draggable panel with dark theme |
 
-## Installation
+## 🚀 Installation
+
+### Chrome Web Store
+> Coming soon!
 
 ### From Source (Developer Mode)
 
-1. Clone or download this repository
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable **Developer mode** in the top right corner
-4. Click **Load unpacked** and select the `lyricsio` folder
-5. The extension icon should appear in your toolbar
+1. Clone this repository
+   ```bash
+   git clone https://github.com/rogeriobatista/lyricsio.git
+   ```
+2. Open Chrome → `chrome://extensions/`
+3. Enable **Developer mode** (top right)
+4. Click **Load unpacked** → select the `lyricsio` folder
+5. Done! The extension icon appears in your toolbar
 
-### Setup
+## 📖 How to Use
 
-1. Click the LyricsIO extension icon
-2. Enter your Groq API key (get one FREE at [Groq Console](https://console.groq.com/keys))
-3. Configure your preferences:
-   - **Auto-detect songs**: Automatically fetch lyrics when a video starts
-   - **Show lyrics panel**: Display the lyrics panel on YouTube
-   - **Dark theme**: Toggle between dark and light themes
-4. Click **Save Settings**
-
-## Usage
-
-1. Go to YouTube and play any music video
-2. The lyrics panel will appear on the right side of the video
-3. Lyrics will be automatically fetched (if auto-detect is enabled)
-4. You can also click **Fetch Lyrics Now** in the popup to manually fetch lyrics
+1. **Play any music video** on YouTube
+2. **Lyrics appear automatically** in a panel on the right
+3. **No lyrics found?** Click `AI Generate` to transcribe from audio
+4. **Enable Karaoke** for synced lyrics overlay on the video
 
 ### Panel Controls
 
-- **Drag** the header to move the panel
-- **Refresh** button to re-fetch lyrics
-- **Minimize** button to collapse the panel
-- **Close** button to hide the panel
+| Button | Action |
+|--------|--------|
+| ↻ | Refresh lyrics |
+| − | Minimize panel |
+| × | Close panel |
+| 🎤 AI Generate | Generate lyrics from audio |
+| Online | View lyrics from database |
+| 🎤 AI | View AI-generated lyrics |
+| 📤 Publish | Share lyrics with others |
 
-## How It Works
+## 🔧 Settings
 
-1. The extension monitors YouTube for video changes
-2. When a new video is detected, it extracts the song title and artist from the video metadata
-3. The song information is sent to Groq's LLaMA model
-4. The AI returns the complete lyrics with proper formatting
-5. Lyrics are displayed in a beautiful, scrollable panel
+Click the extension icon to access settings:
 
-## API Key
+- **Language** — Choose from 7 supported languages
+- **Auto-detect songs** — Automatically fetch lyrics on video change
+- **Show lyrics panel** — Toggle panel visibility
+- **Synced lyrics overlay** — Enable karaoke mode
 
-This extension uses Groq API which has a **generous FREE tier**. Your API key is:
-- Stored locally in Chrome's sync storage
-- Never shared with third parties
-- Only used to make requests to Groq's API
+## 🛠️ How It Works
 
-Get your FREE API key at: https://console.groq.com/keys
+```
+YouTube Video → Song Detection → LRCLIB Search → Display Lyrics
+                                      ↓
+                              Not Found?
+                                      ↓
+                         AI Generate (Groq Whisper) → Synced Lyrics
+                                      ↓
+                              Publish to LRCLIB
+```
 
-## Privacy
+1. **Detects** the song from YouTube video title
+2. **Searches** LRCLIB for verified lyrics
+3. **Falls back** to AI audio transcription if not found
+4. **Displays** lyrics with optional karaoke sync
+5. **Publishes** AI-generated lyrics to help others
 
-- The extension only runs on YouTube pages
-- No data is collected or stored externally
-- Your API key is stored securely in Chrome's storage
+## 🌐 Supported Languages
 
-## Requirements
+| Flag | Language | Code |
+|------|----------|------|
+| 🇺🇸 | English | en |
+| 🇪🇸 | Spanish | es |
+| 🇧🇷 | Portuguese | pt |
+| 🇫🇷 | French | fr |
+| 🇩🇪 | German | de |
+| 🇨🇳 | Chinese | zh |
+| 🇮🇹 | Italian | it |
 
-- Google Chrome (or Chromium-based browser)
-- Groq API key (FREE at Groq Console)
+## 🔒 Privacy
 
-## Troubleshooting
+- ✅ No personal data collected
+- ✅ No tracking or analytics
+- ✅ All settings stored locally
+- ✅ Open source
 
-### Lyrics not appearing?
-1. Make sure you've entered a valid OpenAI API key
-2. Check that the lyrics panel is enabled in settings
-3. Try clicking the refresh button in the panel
-4. Make sure you're on a YouTube video page (`youtube.com/watch?v=...`)
+See our [Privacy Policy](https://rogeriobatista.github.io/lyricsio/privacy-policy.html)
 
-### Wrong lyrics?
-The AI tries to identify the song from the video title. If the title is unclear or doesn't contain the song name, try:
-1. Clicking the refresh button
-2. The AI will attempt to find the best matching lyrics
+## 🧪 Development
 
-## License
+```bash
+# Install dependencies
+npm install
 
-MIT License - feel free to modify and distribute!
+# Run tests
+npm test
+```
 
-## Contributing
+## 📝 License
 
-Contributions are welcome! Feel free to submit issues and pull requests.
+MIT License — feel free to modify and distribute!
+
+## 🤝 Contributing
+
+Contributions welcome! Feel free to open issues and pull requests.
+
+---
+
+<p align="center">
+  Made with ❤️ for music lovers
+  <br>
+  <strong>Powered by AI</strong>
+</p>
