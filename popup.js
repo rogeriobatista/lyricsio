@@ -1,24 +1,24 @@
 document.addEventListener('DOMContentLoaded', async () => {
-  const apiKeyInput = document.getElementById('apiKey');
   const autoDetectToggle = document.getElementById('autoDetect');
   const showPanelToggle = document.getElementById('showPanel');
   const darkThemeToggle = document.getElementById('darkTheme');
+  const showOverlayToggle = document.getElementById('showOverlay');
   const saveBtn = document.getElementById('saveBtn');
   const fetchLyricsBtn = document.getElementById('fetchLyricsBtn');
   const statusDiv = document.getElementById('status');
 
   // Load saved settings
   const settings = await chrome.storage.sync.get([
-    'apiKey',
     'autoDetect',
     'showPanel',
-    'darkTheme'
+    'darkTheme',
+    'showOverlay'
   ]);
 
-  if (settings.apiKey) apiKeyInput.value = settings.apiKey;
   if (settings.autoDetect !== undefined) autoDetectToggle.checked = settings.autoDetect;
   if (settings.showPanel !== undefined) showPanelToggle.checked = settings.showPanel;
   if (settings.darkTheme !== undefined) darkThemeToggle.checked = settings.darkTheme;
+  if (settings.showOverlay !== undefined) showOverlayToggle.checked = settings.showOverlay;
 
   // Show status message
   function showStatus(message, isError = false) {
@@ -32,16 +32,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Save settings
   saveBtn.addEventListener('click', async () => {
     const settings = {
-      apiKey: apiKeyInput.value.trim(),
       autoDetect: autoDetectToggle.checked,
       showPanel: showPanelToggle.checked,
-      darkTheme: darkThemeToggle.checked
+      darkTheme: darkThemeToggle.checked,
+      showOverlay: showOverlayToggle.checked
     };
-
-    if (!settings.apiKey) {
-      showStatus('Please enter your OpenAI API key', true);
-      return;
-    }
 
     await chrome.storage.sync.set(settings);
     showStatus('Settings saved successfully!');
@@ -61,14 +56,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       showStatus('Please open a YouTube video first', true);
       return;
     }
-
-    if (!apiKeyInput.value.trim()) {
-      showStatus('Please enter your API key first', true);
-      return;
-    }
-
-    // Save API key if not saved
-    await chrome.storage.sync.set({ apiKey: apiKeyInput.value.trim() });
 
     try {
       const response = await chrome.tabs.sendMessage(tab.id, { type: 'FETCH_LYRICS' });

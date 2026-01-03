@@ -182,6 +182,7 @@
   padding: 16px;
   min-height: 200px;
   max-height: calc(70vh - 140px);
+  position: relative;
 }
 
 .lyricsio-content::-webkit-scrollbar {
@@ -322,9 +323,159 @@
 
 /* Footer */
 .lyricsio-footer {
-  padding: 8px 16px;
+  padding: 10px 16px;
   font-size: 11px;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.lyricsio-footer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  gap: 8px;
+}
+
+.lyricsio-generate-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 50%, #feca57 100%);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.lyricsio-generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+}
+
+.lyricsio-generate-btn.recording {
+  background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%);
+  color: white;
+  animation: lyricsio-recording-btn 1s ease-in-out infinite;
+  box-shadow: 0 4px 20px rgba(255, 71, 87, 0.6);
+}
+
+.lyricsio-generate-btn.disabled {
+  background: linear-gradient(135deg, #666 0%, #555 100%);
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+  transform: none !important;
+}
+
+.lyricsio-generate-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+@keyframes lyricsio-recording-btn {
+  0%, 100% { 
+    opacity: 1;
+    box-shadow: 0 4px 20px rgba(255, 71, 87, 0.6);
+  }
+  50% { 
+    opacity: 0.85;
+    box-shadow: 0 4px 30px rgba(255, 71, 87, 0.8);
+  }
+}
+
+.lyricsio-source-toggle {
+  display: flex;
+  gap: 2px;
+  background: rgba(128, 128, 128, 0.2);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.lyricsio-source-btn {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  transition: all 0.2s;
+}
+
+.lyricsio-source-btn:hover {
+  opacity: 0.8;
+}
+
+.lyricsio-source-btn.active {
+  background: linear-gradient(90deg, #ff6b6b, #feca57);
+  color: #1a1a2e;
+  opacity: 1;
+}
+
+/* Publish button */
+.lyricsio-publish-btn {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid #4CAF50;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+  transition: all 0.2s;
+  margin-left: 4px;
+}
+
+.lyricsio-publish-btn:hover:not(:disabled) {
+  background: #4CAF50;
+  color: white;
+}
+
+.lyricsio-publish-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.lyricsio-publish-btn.published {
+  background: #4CAF50;
+  color: white;
+  border-color: #4CAF50;
+}
+
+.lyricsio-publish-btn svg {
+  flex-shrink: 0;
+}
+
+.lyricsio-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  border-top-color: currentColor;
+  animation: lyricsio-spin 0.8s linear infinite;
+}
+
+@keyframes lyricsio-spin {
+  to { transform: rotate(360deg); }
+}
+
+.lyricsio-status {
+  display: block;
   text-align: center;
+  color: #888;
 }
 
 /* Animations */
@@ -340,5 +491,284 @@
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+/* ==================== LYRICS OVERLAY ==================== */
+
+#lyricsio-overlay {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#lyricsio-overlay.lyricsio-overlay-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#lyricsio-overlay.lyricsio-overlay-paused .lyricsio-overlay-current {
+  opacity: 0.5;
+}
+
+.lyricsio-overlay-container {
+  text-align: center;
+  max-width: 80vw;
+}
+
+.lyricsio-overlay-current {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 
+    0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(0, 0, 0, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.9),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 12px 24px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin-bottom: 8px;
+  display: inline-block;
+  animation: lyricsio-fadeIn 0.3s ease;
+}
+
+.lyricsio-overlay-next {
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: 
+    0 0 8px rgba(0, 0, 0, 0.8),
+    0 2px 4px rgba(0, 0, 0, 0.9);
+  padding: 8px 16px;
+  min-height: 24px;
+}
+
+.lyricsio-overlay-close {
+  position: absolute;
+  top: -10px;
+  right: -40px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+#lyricsio-overlay:hover .lyricsio-overlay-close {
+  opacity: 1;
+}
+
+.lyricsio-overlay-close:hover {
+  background: rgba(255, 71, 87, 0.8);
+}
+
+@keyframes lyricsio-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Recording Overlay */
+.lyricsio-recording-overlay {
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  right: -16px;
+  bottom: -16px;
+  min-height: 420px;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 100;
+  animation: lyricsio-fadeIn 0.3s ease;
+  padding: 24px;
+  padding-top: 40px;
+  text-align: center;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.lyricsio-recording-pulse {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 71, 87, 0.3) 0%, transparent 70%);
+  animation: lyricsio-pulse 1.5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@keyframes lyricsio-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.2;
+  }
+}
+
+.lyricsio-recording-icon {
+  position: absolute;
+  color: #ff4757;
+  animation: lyricsio-glow 0.8s ease-in-out infinite alternate, lyricsio-bounce 1s ease-in-out infinite;
+  z-index: 1;
+}
+
+@keyframes lyricsio-glow {
+  from {
+    filter: drop-shadow(0 0 10px rgba(255, 71, 87, 0.6));
+  }
+  to {
+    filter: drop-shadow(0 0 25px rgba(255, 71, 87, 1));
+  }
+}
+
+@keyframes lyricsio-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.lyricsio-recording-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  z-index: 1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.lyricsio-recording-subtitle {
+  font-size: 13px;
+  color: #ccc;
+  z-index: 1;
+}
+
+.lyricsio-recording-timer {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ff4757;
+  font-family: 'Courier New', monospace;
+  z-index: 1;
+  text-shadow: 0 0 20px rgba(255, 71, 87, 0.5);
+}
+
+.lyricsio-recording-separator {
+  color: #666;
+}
+
+.lyricsio-recording-total {
+  color: #888;
+}
+
+.lyricsio-recording-progress {
+  width: 85%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.lyricsio-recording-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #ff6b6b);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  transition: width 0.5s linear;
+  animation: lyricsio-shimmer 2s linear infinite;
+}
+
+@keyframes lyricsio-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.lyricsio-recording-warning {
+  font-size: 12px;
+  color: #feca57;
+  background: rgba(254, 202, 87, 0.1);
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(254, 202, 87, 0.3);
+  z-index: 1;
+  margin-top: 8px;
+}
+
+.lyricsio-recording-stop {
+  margin-top: 12px;
+  padding: 10px 24px;
+  background: rgba(255, 71, 87, 0.2);
+  border: 1px solid #ff4757;
+  color: #ff4757;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 1;
+}
+
+.lyricsio-recording-stop:hover {
+  background: #ff4757;
+  color: #fff;
+}
+
+/* Fullscreen support */
+:fullscreen #lyricsio-overlay,
+:-webkit-full-screen #lyricsio-overlay {
+  position: fixed;
+  bottom: 80px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .lyricsio-overlay-current {
+    font-size: 20px;
+    padding: 8px 16px;
+  }
+  
+  .lyricsio-overlay-next {
+    font-size: 14px;
+  }
+  
+  #lyricsio-overlay {
+    bottom: 70px;
+    max-width: 95vw;
   }
 }
