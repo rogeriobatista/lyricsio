@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LyricsIO - Privacy Policy</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(90deg, #ff6b6b, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    h2 {
+      color: #ff6b6b;
+      margin: 30px 0 15px;
+      font-size: 1.5rem;
+    }
+    
+    h3 {
+      color: #feca57;
+      margin: 20px 0 10px;
+      font-size: 1.1rem;
+    }
+    
+    p {
+      margin-bottom: 15px;
+      color: #bbb;
+    }
+    
+    ul {
+      margin: 15px 0 15px 30px;
+      color: #bbb;
+    }
+    
+    li {
+      margin-bottom: 8px;
+    }
+    
+    .highlight {
+      background: rgba(255,107,107,0.1);
+      border-left: 3px solid #ff6b6b;
+      padding: 15px 20px;
+      margin: 20px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    
+    .highlight p {
+      margin: 0;
+      color: #ddd;
+    }
+    
+    .card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+    }
+    
+    .last-updated {
+      text-align: center;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    a {
+      color: #ff6b6b;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">▶</div>
+        <h1>LyricsIO</h1>
+      </div>
+      <p style="font-size: 1.2rem; color: #888;">Privacy Policy</p>
+    </header>
+    
+    <main>
+      <div class="highlight">
+        <p><strong>Summary:</strong> LyricsIO does not collect, store, or transmit any personal data. All settings and cached data are stored locally on your device.</p>
+      </div>
+      
+      <h2>1. Introduction</h2>
+      <p>LyricsIO ("the Extension") is a Chrome browser extension that displays song lyrics for YouTube music videos. This privacy policy explains how we handle your data.</p>
+      
+      <h2>2. Data We Collect</h2>
+      <div class="card">
+        <h3>We do NOT collect:</h3>
+        <ul>
+          <li>Personal information (name, email, etc.)</li>
+          <li>Browsing history</li>
+          <li>YouTube watch history</li>
+          <li>Analytics or tracking data</li>
+          <li>Any data for advertising purposes</li>
+        </ul>
+      </div>
+      
+      <h2>3. Data Stored Locally</h2>
+      <p>The Extension stores the following data locally on your device using Chrome's storage API:</p>
+      <ul>
+        <li><strong>User Preferences:</strong> Language setting, auto-detect toggle, theme preference, synced overlay toggle</li>
+        <li><strong>Cached Lyrics:</strong> AI-generated lyrics are cached locally to avoid re-processing the same videos</li>
+      </ul>
+      <p>This data never leaves your device and is not transmitted to any server.</p>
+      
+      <h2>4. External Services</h2>
+      <p>The Extension communicates with the following external services:</p>
+      
+      <div class="card">
+        <h3>LRCLIB (lrclib.net)</h3>
+        <p>Used to fetch verified song lyrics. When you play a YouTube video, we send the song title and artist name to search for lyrics. No personal data is transmitted.</p>
+      </div>
+      
+      <div class="card">
+        <h3>Groq AI API</h3>
+        <p>Used for AI-powered lyrics generation from audio. When you click "AI Generate", audio data from the current video is sent to Groq's servers for transcription. This data is processed in real-time and not stored by Groq according to their privacy policy.</p>
+      </div>
+      
+      <div class="card">
+        <h3>lyrics.ovh</h3>
+        <p>A fallback lyrics API. Only song title and artist name are sent to search for lyrics.</p>
+      </div>
+      
+      <h2>5. Permissions Explained</h2>
+      <ul>
+        <li><strong>activeTab:</strong> Required to detect the current YouTube video and inject the lyrics panel</li>
+        <li><strong>storage:</strong> Required to save your preferences locally</li>
+        <li><strong>Host permissions (youtube.com):</strong> Required to display lyrics on YouTube pages and capture audio for AI generation</li>
+      </ul>
+      
+      <h2>6. Data Security</h2>
+      <p>Since we don't collect personal data, there's minimal security risk. All communication with external APIs uses HTTPS encryption.</p>
+      
+      <h2>7. Children's Privacy</h2>
+      <p>The Extension does not knowingly collect any data from children under 13 years of age.</p>
+      
+      <h2>8. Changes to This Policy</h2>
+      <p>We may update this privacy policy from time to time. Any changes will be reflected on this page with an updated revision date.</p>
+      
+      <h2>9. Contact</h2>
+      <p>If you have any questions about this privacy policy, please contact us at:</p>
+      <p><a href="mailto:lyricsio@example.com">lyricsio@example.com</a></p>
+      
+      <div class="highlight">
+        <p><strong>Your Privacy Matters:</strong> We built LyricsIO with privacy in mind. We believe you should be able to enjoy music lyrics without sacrificing your personal data.</p>
+      </div>
+      
+      <p class="last-updated">Last updated: January 2, 2026</p>
+    </main>
+    
+    <footer>
+      <p>© 2026 LyricsIO. All rights reserved.</p>
+      <p style="margin-top: 10px;">
+        <a href="https://github.com/rogeriobatista/lyricsio">GitHub</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

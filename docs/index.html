@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LyricsIO - YouTube Lyrics Extension</title>
+  <meta name="description" content="See lyrics for any YouTube music video with AI-powered generation and karaoke overlay">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      line-height: 1.7;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .logo-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: white;
+    }
+    
+    h1 {
+      font-size: 3rem;
+      background: linear-gradient(90deg, #ff6b6b, #feca57);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .tagline {
+      font-size: 1.3rem;
+      color: #888;
+      margin-top: 10px;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      color: white;
+      padding: 15px 40px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-top: 30px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(255,107,107,0.3);
+    }
+    
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin: 50px 0;
+    }
+    
+    .feature {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .feature h3 {
+      color: #ff6b6b;
+      margin-bottom: 10px;
+    }
+    
+    .feature p {
+      color: #999;
+      font-size: 0.95rem;
+    }
+    
+    .languages {
+      text-align: center;
+      margin: 50px 0;
+    }
+    
+    .languages h2 {
+      color: #feca57;
+      margin-bottom: 20px;
+    }
+    
+    .lang-flags {
+      font-size: 2rem;
+      letter-spacing: 10px;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #666;
+    }
+    
+    footer a {
+      color: #ff6b6b;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">▶</div>
+      </div>
+      <h1>LyricsIO</h1>
+      <p class="tagline">See lyrics for any YouTube music video</p>
+      <a href="https://chrome.google.com/webstore" class="cta-button">
+        Add to Chrome - It's Free
+      </a>
+    </header>
+    
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">🎵</div>
+        <h3>Auto-Detect</h3>
+        <p>Automatically detects songs playing on YouTube and fetches lyrics instantly</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Generate</h3>
+        <p>No lyrics found? Generate them from audio using advanced AI transcription</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">🎤</div>
+        <h3>Karaoke Mode</h3>
+        <p>Synced lyrics overlay that follows along with the music in real-time</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">📤</div>
+        <h3>Publish & Share</h3>
+        <p>Contribute AI-generated lyrics to help others find them too</p>
+      </div>
+    </section>
+    
+    <section class="languages">
+      <h2>Available in 7 Languages</h2>
+      <div class="lang-flags">🇺🇸 🇪🇸 🇧🇷 🇫🇷 🇩🇪 🇨🇳 🇮🇹</div>
+    </section>
+    
+    <footer>
+      <p>© 2026 LyricsIO. All rights reserved.</p>
+      <p style="margin-top: 15px;">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="https://github.com/rogeriobatista/lyricsio">GitHub</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>
