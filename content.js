@@ -794,14 +794,19 @@ class LyricsIO {
         const secs = remaining % 60;
         this.updateStatus(`🔴 Recording... ${mins}:${secs.toString().padStart(2, '0')} remaining (click to stop early)`);
         this.updateRecordingProgress(elapsed, total);
+        
+        // Stop 1 second early to avoid losing content on page navigation
+        if (remaining <= 1 && this.isRecording) {
+          this.stopRecording();
+        }
       }, 1000);
       
-      // Auto-stop when song ends (or max time reached)
+      // Auto-stop when song ends (or max time reached) - backup safety net
       this.recordingTimeout = setTimeout(() => {
         if (this.isRecording) {
           this.stopRecording();
         }
-      }, this.recordDuration);
+      }, this.recordDuration - 1000); // Stop 1 second early
       
       // Also stop recording if video ends
       this.videoEndHandler = () => {
@@ -828,11 +833,16 @@ class LyricsIO {
       this.showRecordingOverlay(false);
       this.panel.classList.remove('lyricsio-recording');
       
-      // Remove video end listener
+      // Pause the video when stopping recording
       const video = document.querySelector('video');
-      if (video && this.videoEndHandler) {
-        video.removeEventListener('ended', this.videoEndHandler);
-        this.videoEndHandler = null;
+      if (video) {
+        video.pause();
+        
+        // Remove video end listener
+        if (this.videoEndHandler) {
+          video.removeEventListener('ended', this.videoEndHandler);
+          this.videoEndHandler = null;
+        }
       }
     }
   }
@@ -1151,8 +1161,8 @@ class LyricsIO {
       // Update AI Generated button to show if synced
       const generatedBtn = toggle.querySelector('[data-source="generated"]');
       if (generatedBtn && this.generatedLyrics?.syncedLyrics) {
-        generatedBtn.innerHTML = '🎤 AI Karaoke';
-        generatedBtn.title = 'AI Generated with synced lyrics for karaoke!';
+        generatedBtn.innerHTML = t('aiKaraoke', this.language);
+        generatedBtn.title = t('aiGenerated', this.language);
       }
 
       // Show publish button when generated lyrics exist
