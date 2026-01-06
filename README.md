@@ -20,7 +20,10 @@
 ## 🚀 Installation
 
 ### Chrome Web Store
-> Coming soon!
+
+[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png)](https://chromewebstore.google.com/detail/pjbekbmngleneipdjdbggmfjnmdipboe)
+
+**[Install LyricsIO](https://chromewebstore.google.com/detail/pjbekbmngleneipdjdbggmfjnmdipboe)** — One click and you're ready!
 
 ### From Source (Developer Mode)
 
