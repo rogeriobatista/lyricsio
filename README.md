@@ -21,9 +21,9 @@
 
 ### Chrome Web Store
 
-[![Available in the Chrome Web Store](https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/iNEddTyWiMfLSwFD6qGq.png)](https://chromewebstore.google.com/detail/pjbekbmngleneipdjdbggmfjnmdipboe)
-
-**[Install LyricsIO](https://chromewebstore.google.com/detail/pjbekbmngleneipdjdbggmfjnmdipboe)** — One click and you're ready!
+<a href="https://chromewebstore.google.com/detail/pjbekbmngleneipdjdbggmfjnmdipboe">
+  <img src="https://img.shields.io/badge/Chrome%20Web%20Store-Install-blue?logo=googlechrome&logoColor=white&style=for-the-badge" alt="Available in the Chrome Web Store">
+</a>
 
 ### From Source (Developer Mode)
 
