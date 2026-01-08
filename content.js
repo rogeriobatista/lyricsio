@@ -38,6 +38,8 @@ class LyricsIO {
     this.videoEndHandler = null;
     this.isFetching = false;
     this.language = 'en';
+    this.currentTab = 'lyrics'; // 'lyrics' or 'tabs'
+    this.generatedTabs = null;
     
     this.init();
   }
@@ -145,6 +147,23 @@ class LyricsIO {
       <div class="lyricsio-song-info">
         <div class="lyricsio-song-title" data-i18n="detectingSong">${t('detectingSong', this.language)}</div>
       </div>
+      <div class="lyricsio-tabs-switcher">
+        <button class="lyricsio-tab-btn active" data-tab="lyrics">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 12l2 2 4-4"/>
+            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+            <path d="M3 12h18"/>
+          </svg>
+          <span data-i18n="lyrics">${t('lyrics', this.language)}</span>
+        </button>
+        <button class="lyricsio-tab-btn" data-tab="tabs">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <span data-i18n="tabs">${t('tabs', this.language)}</span>
+        </button>
+      </div>
       <div class="lyricsio-content">
         <div class="lyricsio-placeholder">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -214,6 +233,14 @@ class LyricsIO {
     // Publish button
     this.panel.querySelector('.lyricsio-publish-btn').addEventListener('click', () => {
       this.publishLyrics();
+    });
+
+    // Tab switcher buttons
+    this.panel.querySelectorAll('.lyricsio-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tab = e.currentTarget.dataset.tab;
+        this.switchTab(tab);
+      });
     });
 
     // Make panel draggable
@@ -307,7 +334,15 @@ class LyricsIO {
       const key = element.getAttribute('data-i18n');
       const translation = t(key, this.language);
       if (translation) {
-        element.textContent = translation;
+        // For tab buttons, only update the span, not the whole button
+        if (element.closest('.lyricsio-tab-btn')) {
+          const span = element.closest('.lyricsio-tab-btn').querySelector('span[data-i18n]');
+          if (span === element) {
+            element.textContent = translation;
+          }
+        } else {
+          element.textContent = translation;
+        }
       }
     });
     
@@ -403,7 +438,9 @@ class LyricsIO {
     this.parsedLyrics = [];
     this.apiLyrics = null;
     this.generatedLyrics = null;
+    this.generatedTabs = null;
     this.currentLyricsSource = 'api';
+    this.currentTab = 'lyrics';
     
     // Hide source toggle for new video
     const toggle = this.panel.querySelector('.lyricsio-source-toggle');
@@ -546,8 +583,8 @@ class LyricsIO {
       this.syncedLyrics = lyricsData.syncedLyrics || null;
     }
     
-    // Format lyrics with proper line breaks and styling
-    const formattedLyrics = this.formatLyrics(displayLyrics);
+    // Format lyrics with proper line breaks and styling (plain lyrics, no chords)
+    const formattedLyrics = this.formatLyrics(displayLyrics, null);
     
     content.innerHTML = `
       <div class="lyricsio-lyrics">
@@ -567,6 +604,9 @@ class LyricsIO {
     
     // Check for existing generated lyrics and show toggle if available
     this.checkForGeneratedLyrics();
+    
+    // Check for existing tabs
+    this.checkForGeneratedTabs();
   }
 
   // Check if we have generated lyrics saved for this video
@@ -575,6 +615,14 @@ class LyricsIO {
     if (existing) {
       this.generatedLyrics = existing;
       this.showSourceToggle();
+    }
+  }
+
+  // Check if we have generated tabs saved for this video
+  async checkForGeneratedTabs() {
+    const existing = await this.loadGeneratedTabs();
+    if (existing) {
+      this.generatedTabs = existing;
     }
   }
 
@@ -968,6 +1016,10 @@ class LyricsIO {
         // Save locally
         await this.saveGeneratedLyrics(this.generatedLyrics);
         
+        // Generate tabs
+        this.updateStatus('🎸 Generating guitar tabs...');
+        await this.generateTabs(response.transcription);
+        
         // Show source toggle and switch to generated
         this.showSourceToggle();
         this.switchLyricsSource('generated');
@@ -1081,6 +1133,222 @@ class LyricsIO {
     });
     
     return response.success ? response.lyrics : null;
+  }
+
+  // Generate tabs using AI
+  async generateTabs(transcription) {
+    const songInfo = this.getSongInfo();
+    
+    try {
+      const response = await chrome.runtime.sendMessage({
+        type: 'GENERATE_TABS',
+        songInfo,
+        transcription
+      });
+
+      if (response.success) {
+        this.generatedTabs = {
+          tabs: response.tabs,
+          timestamp: Date.now()
+        };
+        
+        // Save locally
+        await this.saveGeneratedTabs(this.generatedTabs);
+        
+        // If currently on tabs tab, update display
+        if (this.currentTab === 'tabs') {
+          this.showTabs();
+        } else {
+          // Update status to mention tabs are ready
+          const currentStatus = this.panel.querySelector('.lyricsio-status')?.textContent || '';
+          if (currentStatus.includes('✅')) {
+            this.updateStatus('✅ Lyrics and tabs generated and saved!');
+          }
+        }
+      } else {
+        console.error('Failed to generate tabs:', response.error);
+      }
+    } catch (error) {
+      console.error('Error generating tabs:', error);
+    }
+  }
+
+  // Save generated tabs to local storage
+  async saveGeneratedTabs(tabs) {
+    const videoId = this.getVideoId();
+    if (!videoId) return;
+    
+    await chrome.runtime.sendMessage({
+      type: 'SAVE_GENERATED_TABS',
+      videoId,
+      tabs
+    });
+  }
+
+  // Load generated tabs from local storage
+  async loadGeneratedTabs() {
+    const videoId = this.getVideoId();
+    if (!videoId) return null;
+    
+    const response = await chrome.runtime.sendMessage({
+      type: 'GET_GENERATED_TABS',
+      videoId
+    });
+    
+    return response.success ? response.tabs : null;
+  }
+
+  // Switch between lyrics and tabs tabs
+  async switchTab(tab) {
+    this.currentTab = tab;
+    
+    // Update button states
+    this.panel.querySelectorAll('.lyricsio-tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tab);
+    });
+    
+    // Show appropriate content
+    if (tab === 'tabs') {
+      // Load tabs if not already loaded
+      if (!this.generatedTabs) {
+        await this.checkForGeneratedTabs();
+      }
+      // Show only tabs (chords above lyrics from AI generation)
+      this.showTabs();
+    } else {
+      // Show plain lyrics (no chords) based on current source
+      if (this.currentLyricsSource === 'generated' && this.generatedLyrics) {
+        this.displayLyrics(this.generatedLyrics.formatted);
+      } else if (this.apiLyrics) {
+        this.showLyrics(this.apiLyrics);
+      } else {
+        this.showLoading();
+      }
+    }
+  }
+
+  // Display tabs together with lyrics (only lyrics with chords)
+  showTabs() {
+    const content = this.panel.querySelector('.lyricsio-content');
+    
+    let html = '';
+    
+    // Show only lyrics with chords (from tabs)
+    if (this.generatedTabs && this.generatedTabs.tabs) {
+      // Extract and format only lyrics lines that have chords
+      const lyricsWithChords = this.formatLyricsWithChordsOnly(this.generatedTabs.tabs);
+      
+      if (lyricsWithChords) {
+        html = `
+          <div class="lyricsio-lyrics">
+            ${lyricsWithChords}
+          </div>
+        `;
+      } else {
+        // Fallback: show tabs in raw format
+        const formattedTabs = this.formatTabs(this.generatedTabs.tabs);
+        html = `
+          <div class="lyricsio-tabs">
+            ${formattedTabs}
+          </div>
+        `;
+      }
+    } else {
+      // No tabs available
+      html = `
+        <div class="lyricsio-placeholder">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+          <p data-i18n="noTabsAvailable">${t('noTabsAvailable', this.language)}</p>
+          <p style="font-size: 12px; opacity: 0.7;" data-i18n="generateTabsHint">${t('generateTabsHint', this.language)}</p>
+        </div>
+      `;
+    }
+    
+    content.innerHTML = html;
+  }
+
+  // Format lyrics with chords only (no plain lyrics) - extracts from tabs text
+  formatLyricsWithChordsOnly(tabsText) {
+    const tabsLines = tabsText.split('\n');
+    let html = '';
+    let i = 0;
+    
+    while (i < tabsLines.length) {
+      const tabLine = tabsLines[i].trim();
+      
+      // Skip empty lines
+      if (!tabLine) {
+        i++;
+        continue;
+      }
+      
+      // Section markers
+      if (tabLine.match(/^\[.*\]$/)) {
+        html += `<div class="lyricsio-section">${this.escapeHtml(tabLine)}</div>`;
+        i++;
+        continue;
+      }
+      
+      // Skip title lines and metadata
+      if (tabLine.startsWith('🎸') || tabLine.startsWith('—') || tabLine.startsWith('Generated by')) {
+        i++;
+        continue;
+      }
+      
+      // Check if this line looks like a chord line
+      const isChordLine = this.isChordLine(tabLine);
+      
+      if (isChordLine && i + 1 < tabsLines.length) {
+        // This is a chord line, next line should be lyrics
+        const chordLine = tabLine;
+        const lyricsLine = tabsLines[i + 1].trim();
+        
+        if (lyricsLine && !lyricsLine.match(/^\[.*\]$/) && !lyricsLine.startsWith('🎸') && !lyricsLine.startsWith('—') && !lyricsLine.startsWith('Generated by')) {
+          // Format with chords above lyrics
+          html += this.formatChordLine(chordLine, lyricsLine);
+        }
+        
+        i += 2; // Skip both chord and lyrics lines
+      } else {
+        // Regular line - skip if it's not a chord line (we only want lines with chords)
+        i++;
+      }
+    }
+    
+    return html || null;
+  }
+
+  // Format tabs for display
+  formatTabs(tabsText) {
+    // Convert tabs text to HTML with proper formatting
+    return tabsText
+      .split('\n')
+      .map(line => {
+        // Style section headers
+        if (line.match(/^\[.*\]$/)) {
+          return `<div class="lyricsio-section">${line}</div>`;
+        }
+        // Style tab lines (lines with numbers or dashes)
+        if (line.match(/^[\d\-\|x\s]+$/i) || line.includes('|') || line.match(/^[eADGBe\-\d\s\|]+$/i)) {
+          return `<div class="lyricsio-tab-line">${this.escapeHtml(line)}</div>`;
+        }
+        // Empty lines become spacing
+        if (line.trim() === '') {
+          return '<div class="lyricsio-spacer"></div>';
+        }
+        // Regular text lines (chord names, instructions, etc.)
+        return `<div class="lyricsio-tab-text">${this.escapeHtml(line)}</div>`;
+      })
+      .join('');
+  }
+
+  // Escape HTML to prevent XSS
+  escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
   // Publish generated lyrics to LRCLIB
@@ -1208,7 +1476,8 @@ class LyricsIO {
   // Display lyrics without processing (for switching)
   displayLyrics(lyricsText) {
     const content = this.panel.querySelector('.lyricsio-content');
-    const formattedLyrics = this.formatLyrics(lyricsText);
+    // Always show plain lyrics (no chords) in Lyrics tab
+    const formattedLyrics = this.formatLyrics(lyricsText, null);
     content.innerHTML = `
       <div class="lyricsio-lyrics">
         ${formattedLyrics}
@@ -1269,7 +1538,8 @@ class LyricsIO {
     }
   }
 
-  formatLyrics(lyrics) {
+  formatLyrics(lyrics, tabs = null) {
+    // Always show plain lyrics (no chords) - tabs are handled separately in showTabs()
     // Convert plain text to HTML with proper formatting
     return lyrics
       .split('\n')
@@ -1290,6 +1560,240 @@ class LyricsIO {
         return `<div class="lyricsio-line">${line}</div>`;
       })
       .join('');
+  }
+
+  // Format lyrics with chords above words
+  formatLyricsWithChords(lyrics, tabsText) {
+    // Parse tabs to extract chord-to-lyrics mapping
+    const chordMap = this.parseTabsForChords(tabsText);
+    const lyricsLines = lyrics.split('\n');
+    const tabsLines = tabsText.split('\n');
+    
+    let html = '';
+    let lyricsIndex = 0;
+    let i = 0;
+    
+    while (i < tabsLines.length && lyricsIndex < lyricsLines.length) {
+      const tabLine = tabsLines[i].trim();
+      
+      // Skip empty lines and section markers in tabs
+      if (!tabLine || tabLine.match(/^\[.*\]$/) || tabLine.startsWith('🎸')) {
+        if (tabLine.match(/^\[.*\]$/)) {
+          // Section marker - find matching one in lyrics
+          html += `<div class="lyricsio-section">${tabLine}</div>`;
+          // Skip matching section in lyrics
+          while (lyricsIndex < lyricsLines.length && 
+                 !lyricsLines[lyricsIndex].trim().match(/^\[.*\]$/)) {
+            lyricsIndex++;
+          }
+          if (lyricsIndex < lyricsLines.length) {
+            lyricsIndex++;
+          }
+        }
+        i++;
+        continue;
+      }
+      
+      // Check if this line looks like a chord line (has chord names)
+      const isChordLine = this.isChordLine(tabLine);
+      
+      if (isChordLine && i + 1 < tabsLines.length) {
+        // This is a chord line, next line should be lyrics
+        const chordLine = tabLine;
+        const lyricsLine = tabsLines[i + 1].trim();
+        
+        // Find matching lyrics line
+        let matchingLyricsLine = null;
+        for (let j = lyricsIndex; j < lyricsLines.length; j++) {
+          const lyricsLineText = lyricsLines[j].trim();
+          // Skip section markers and empty lines in lyrics
+          if (lyricsLineText.match(/^\[.*\]$/) || lyricsLineText.startsWith('🎵') || 
+              lyricsLineText === '' || lyricsLineText.startsWith('—')) {
+            continue;
+          }
+          // Check if lyrics match (fuzzy match)
+          if (this.linesMatch(lyricsLine, lyricsLineText)) {
+            matchingLyricsLine = lyricsLineText;
+            lyricsIndex = j + 1;
+            break;
+          }
+        }
+        
+        if (matchingLyricsLine) {
+          // Format with chords above lyrics
+          html += this.formatChordLine(chordLine, matchingLyricsLine);
+        } else {
+          // Fallback: use lyrics from tabs
+          html += this.formatChordLine(chordLine, lyricsLine);
+        }
+        
+        i += 2; // Skip both chord and lyrics lines
+      } else {
+        // Regular line, check if it's in lyrics
+        if (tabLine && !tabLine.match(/^\[.*\]$/) && !tabLine.startsWith('🎸')) {
+          // Try to find matching line in lyrics
+          let found = false;
+          for (let j = lyricsIndex; j < lyricsLines.length; j++) {
+            const lyricsLineText = lyricsLines[j].trim();
+            if (lyricsLineText.match(/^\[.*\]$/) || lyricsLineText.startsWith('🎵') || 
+                lyricsLineText === '' || lyricsLineText.startsWith('—')) {
+              continue;
+            }
+            if (this.linesMatch(tabLine, lyricsLineText)) {
+              html += `<div class="lyricsio-line">${this.escapeHtml(lyricsLineText)}</div>`;
+              lyricsIndex = j + 1;
+              found = true;
+              break;
+            }
+          }
+          if (!found) {
+            html += `<div class="lyricsio-line">${this.escapeHtml(tabLine)}</div>`;
+          }
+        }
+        i++;
+      }
+    }
+    
+    // Add remaining lyrics lines
+    while (lyricsIndex < lyricsLines.length) {
+      const line = lyricsLines[lyricsIndex].trim();
+      if (line && !line.match(/^\[.*\]$/) && !line.startsWith('🎵') && !line.startsWith('—')) {
+        html += `<div class="lyricsio-line">${this.escapeHtml(line)}</div>`;
+      }
+      lyricsIndex++;
+    }
+    
+    return html;
+  }
+
+  // Check if a line contains chord names
+  isChordLine(line) {
+    // Common chord patterns
+    const chordPattern = /^[A-G][#b]?(m|maj|min|dim|aug|sus|add|7|9|11|13)?(\/[A-G][#b]?)?(\s+[A-G][#b]?(m|maj|min|dim|aug|sus|add|7|9|11|13)?(\/[A-G][#b]?)?)*$/;
+    const chords = line.trim().split(/\s+/);
+    
+    // Check if most words look like chords
+    let chordCount = 0;
+    for (const word of chords) {
+      if (word.match(/^[A-G][#b]?(m|maj|min|dim|aug|sus|add|7|9|11|13)?(\/[A-G][#b]?)?$/i)) {
+        chordCount++;
+      }
+    }
+    
+    // If more than half the words are chords, it's a chord line
+    return chordCount > 0 && chordCount >= Math.ceil(chords.length / 2);
+  }
+
+  // Check if two lines match (fuzzy matching)
+  linesMatch(line1, line2) {
+    const normalize = (str) => str.toLowerCase().replace(/[^\w\s]/g, '').trim();
+    const norm1 = normalize(line1);
+    const norm2 = normalize(line2);
+    
+    // Exact match
+    if (norm1 === norm2) return true;
+    
+    // Check if one contains the other (for partial matches)
+    if (norm1.length > 10 && norm2.length > 10) {
+      const similarity = this.calculateSimilarity(norm1, norm2);
+      return similarity > 0.7; // 70% similarity threshold
+    }
+    
+    return false;
+  }
+
+  // Calculate similarity between two strings
+  calculateSimilarity(str1, str2) {
+    const longer = str1.length > str2.length ? str1 : str2;
+    const shorter = str1.length > str2.length ? str2 : str1;
+    
+    if (longer.length === 0) return 1.0;
+    
+    const distance = this.levenshteinDistance(longer, shorter);
+    return (longer.length - distance) / longer.length;
+  }
+
+  // Levenshtein distance for string similarity
+  levenshteinDistance(str1, str2) {
+    const matrix = [];
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j;
+    }
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    return matrix[str2.length][str1.length];
+  }
+
+  // Format a line with chords above lyrics
+  formatChordLine(chordLine, lyricsLine) {
+    // Parse chord positions from the chord line
+    // The chord line should have chords spaced to align with words
+    const chordPattern = /([A-G][#b]?(m|maj|min|dim|aug|sus|add|7|9|11|13)?(\/[A-G][#b]?)?)/gi;
+    const chordMatches = [];
+    let match;
+    
+    while ((match = chordPattern.exec(chordLine)) !== null) {
+      chordMatches.push({
+        chord: match[0],
+        position: match.index
+      });
+    }
+    
+    if (chordMatches.length === 0) {
+      // No chords found, just return lyrics
+      return `<div class="lyricsio-line">${this.escapeHtml(lyricsLine)}</div>`;
+    }
+    
+    // Build HTML with chords aligned above words
+    // Preserve the original spacing from the chord line
+    let html = '<div class="lyricsio-chord-line-wrapper">';
+    html += '<div class="lyricsio-chord-line">';
+    
+    // Reconstruct the chord line preserving spacing
+    let lastPos = 0;
+    for (let i = 0; i < chordMatches.length; i++) {
+      const { chord, position } = chordMatches[i];
+      
+      // Get the text between last chord and current chord
+      const between = chordLine.substring(lastPos, position);
+      
+      // Preserve spaces (convert to non-breaking spaces for HTML)
+      const spaces = between.replace(/ /g, '&nbsp;');
+      
+      html += `${spaces}<span class="lyricsio-chord">${this.escapeHtml(chord)}</span>`;
+      
+      lastPos = position + chord.length;
+    }
+    
+    // Add any remaining spaces after the last chord
+    const remaining = chordLine.substring(lastPos).replace(/ /g, '&nbsp;');
+    html += remaining;
+    
+    html += '</div>';
+    html += `<div class="lyricsio-line">${this.escapeHtml(lyricsLine)}</div>`;
+    html += '</div>';
+    
+    return html;
+  }
+
+  // Parse tabs to extract chord information (simplified - mainly for structure)
+  parseTabsForChords(tabsText) {
+    // This is a helper function - the main parsing happens in formatLyricsWithChords
+    return {};
   }
 
   showError(message) {

@@ -34,6 +34,10 @@ const LOCALES = {
       publish: 'Publish',
       published: '✓ Published',
       publishing: 'Publishing...',
+      lyrics: 'Lyrics',
+      tabs: 'Tabs',
+      noTabsAvailable: 'No tabs available yet',
+      generateTabsHint: 'Generate lyrics to create tabs automatically',
       
       // Panel buttons
       refreshLyrics: 'Refresh lyrics',
@@ -107,6 +111,10 @@ const LOCALES = {
       publish: 'Publicar',
       published: '✓ Publicado',
       publishing: 'Publicando...',
+      lyrics: 'Letras',
+      tabs: 'Tabs',
+      noTabsAvailable: 'No hay tabs disponibles aún',
+      generateTabsHint: 'Genera letras para crear tabs automáticamente',
       
       refreshLyrics: 'Actualizar letras',
       minimize: 'Minimizar',
@@ -175,6 +183,10 @@ const LOCALES = {
       publish: 'Publicar',
       published: '✓ Publicado',
       publishing: 'Publicando...',
+      lyrics: 'Letras',
+      tabs: 'Tabs',
+      noTabsAvailable: 'Nenhuma tab disponível ainda',
+      generateTabsHint: 'Gere letras para criar tabs automaticamente',
       
       refreshLyrics: 'Atualizar letras',
       minimize: 'Minimizar',
@@ -243,6 +255,10 @@ const LOCALES = {
       publish: 'Publier',
       published: '✓ Publié',
       publishing: 'Publication...',
+      lyrics: 'Paroles',
+      tabs: 'Tabs',
+      noTabsAvailable: 'Aucune tab disponible pour le moment',
+      generateTabsHint: 'Générez les paroles pour créer des tabs automatiquement',
       
       refreshLyrics: 'Actualiser les paroles',
       minimize: 'Réduire',
@@ -311,6 +327,10 @@ const LOCALES = {
       publish: 'Veröffentlichen',
       published: '✓ Veröffentlicht',
       publishing: 'Veröffentlichen...',
+      lyrics: 'Liedtexte',
+      tabs: 'Tabs',
+      noTabsAvailable: 'Noch keine Tabs verfügbar',
+      generateTabsHint: 'Generieren Sie Liedtexte, um automatisch Tabs zu erstellen',
       
       refreshLyrics: 'Liedtexte aktualisieren',
       minimize: 'Minimieren',
@@ -379,6 +399,10 @@ const LOCALES = {
       publish: '发布',
       published: '✓ 已发布',
       publishing: '发布中...',
+      lyrics: '歌词',
+      tabs: '吉他谱',
+      noTabsAvailable: '暂无吉他谱',
+      generateTabsHint: '生成歌词以自动创建吉他谱',
       
       refreshLyrics: '刷新歌词',
       minimize: '最小化',
@@ -447,6 +471,10 @@ const LOCALES = {
       publish: 'Pubblica',
       published: '✓ Pubblicato',
       publishing: 'Pubblicazione...',
+      lyrics: 'Testi',
+      tabs: 'Tabs',
+      noTabsAvailable: 'Nessuna tab disponibile ancora',
+      generateTabsHint: 'Genera testi per creare tabs automaticamente',
       
       refreshLyrics: 'Aggiorna testi',
       minimize: 'Riduci',
