@@ -34,29 +34,34 @@
   <text x="450" y="260" font-family="Segoe UI, Arial, sans-serif" font-size="100" font-weight="bold" fill="url(#textGrad)">LyricsIO</text>
   
   <!-- Subtitle -->
-  <text x="450" y="330" font-family="Segoe UI, Arial, sans-serif" font-size="36" fill="#aaaaaa">See lyrics for any YouTube music video</text>
+  <text x="450" y="330" font-family="Segoe UI, Arial, sans-serif" font-size="36" fill="#aaaaaa">Lyrics &amp; Guitar Tabs for YouTube</text>
   
   <!-- Feature boxes -->
   <g transform="translate(450, 380)">
     <!-- Auto-detect -->
-    <rect x="0" y="0" width="200" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
-    <text x="100" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#ff6b6b" text-anchor="middle">🎵</text>
-    <text x="100" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">Auto-detect</text>
+    <rect x="0" y="0" width="160" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
+    <text x="80" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#ff6b6b" text-anchor="middle">🎵</text>
+    <text x="80" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">Auto-detect</text>
     
     <!-- AI Generate -->
-    <rect x="220" y="0" width="200" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
-    <text x="320" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#ff8e53" text-anchor="middle">🤖</text>
-    <text x="320" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">AI Generate</text>
+    <rect x="170" y="0" width="160" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
+    <text x="250" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#ff8e53" text-anchor="middle">🤖</text>
+    <text x="250" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">AI Generate</text>
+    
+    <!-- Guitar Tabs -->
+    <rect x="340" y="0" width="160" height="70" rx="10" fill="rgba(254,202,87,0.15)"/>
+    <text x="420" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#feca57" text-anchor="middle">🎸</text>
+    <text x="420" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#feca57" text-anchor="middle" font-weight="bold">Guitar Tabs</text>
     
     <!-- Karaoke -->
-    <rect x="440" y="0" width="200" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
-    <text x="540" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#feca57" text-anchor="middle">🎤</text>
-    <text x="540" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">Karaoke Mode</text>
+    <rect x="510" y="0" width="160" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
+    <text x="590" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#feca57" text-anchor="middle">🎤</text>
+    <text x="590" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">Karaoke</text>
     
     <!-- Publish -->
-    <rect x="660" y="0" width="200" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
+    <rect x="680" y="0" width="160" height="70" rx="10" fill="rgba(255,255,255,0.05)"/>
     <text x="760" y="30" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#6bff8e" text-anchor="middle">📤</text>
-    <text x="760" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">Publish Lyrics</text>
+    <text x="760" y="55" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#cccccc" text-anchor="middle">Publish</text>
   </g>
   
   <!-- Powered by AI badge -->

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LyricsIO - YouTube Lyrics Extension</title>
-  <meta name="description" content="See lyrics for any YouTube music video with AI-powered generation and karaoke overlay">
+  <title>LyricsIO - YouTube Lyrics & Guitar Tabs Extension</title>
+  <meta name="description" content="See lyrics and guitar tabs for any YouTube music video with AI-powered generation, chords above lyrics, and karaoke overlay">
   <style>
     * {
       margin: 0;
@@ -85,9 +85,34 @@
     
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 25px;
       margin: 50px 0;
+    }
+    
+    .feature.new {
+      border: 2px solid rgba(254,202,87,0.3);
+      background: rgba(254,202,87,0.1);
+    }
+    
+    .feature.new .feature-icon {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .new-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: #1a1a2e;
+      font-size: 0.7rem;
+      font-weight: bold;
+      padding: 3px 8px;
+      border-radius: 10px;
+      margin-left: 8px;
     }
     
     .feature {
@@ -153,7 +178,7 @@
         <div class="logo-icon">▶</div>
       </div>
       <h1>LyricsIO</h1>
-      <p class="tagline">See lyrics for any YouTube music video</p>
+      <p class="tagline">Lyrics &amp; Guitar Tabs for YouTube</p>
       <a href="https://chromewebstore.google.com/detail/pjbekbmngleneipdjdbggmfjnmdipboe?utm_source=item-share-cb" class="cta-button">
         Add to Chrome - It's Free
       </a>
@@ -172,6 +197,12 @@
         <p>No lyrics found? Generate them from audio using advanced AI transcription</p>
       </div>
       
+      <div class="feature new">
+        <div class="feature-icon">🎸</div>
+        <h3>Guitar Tabs <span class="new-badge">NEW</span></h3>
+        <p>AI generates guitar tabs with chords displayed above lyrics. Perfect for musicians learning new songs!</p>
+      </div>
+      
       <div class="feature">
         <div class="feature-icon">🎤</div>
         <h3>Karaoke Mode</h3>
@@ -181,13 +212,34 @@
       <div class="feature">
         <div class="feature-icon">📤</div>
         <h3>Publish & Share</h3>
-        <p>Contribute AI-generated lyrics to help others find them too</p>
+        <p>Contribute AI-generated lyrics and tabs to help others find them too</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <h3>7 Languages</h3>
+        <p>Available in English, Spanish, Portuguese, French, German, Chinese, and Italian</p>
       </div>
     </section>
     
     <section class="languages">
       <h2>Available in 7 Languages</h2>
       <div class="lang-flags">🇺🇸 🇪🇸 🇧🇷 🇫🇷 🇩🇪 🇨🇳 🇮🇹</div>
+      <p style="margin-top: 20px; color: #888; font-size: 0.9rem;">Switch languages in the extension settings</p>
+    </section>
+    
+    <section style="margin: 50px 0; padding: 30px; background: rgba(255,255,255,0.03); border-radius: 15px; border-left: 4px solid #feca57;">
+      <h2 style="color: #feca57; margin-bottom: 15px;">🎸 How Guitar Tabs Work</h2>
+      <p style="color: #ccc; margin-bottom: 15px;">
+        When you generate lyrics using AI, LyricsIO automatically creates guitar tabs too! 
+        Switch to the <strong>"Tabs"</strong> tab to see chords displayed above the lyrics words where chord changes occur.
+      </p>
+      <ul style="color: #999; margin-left: 20px; line-height: 2;">
+        <li>Chords are aligned above lyrics for easy reading</li>
+        <li>Perfect for guitar players learning new songs</li>
+        <li>AI-generated tabs based on the song's audio</li>
+        <li>Works with any song you generate lyrics for</li>
+      </ul>
     </section>
     
     <footer>

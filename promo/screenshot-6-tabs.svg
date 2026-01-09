@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 800">
+  <!-- Browser Chrome -->
+  <rect width="1280" height="800" fill="#1a1a2e"/>
+  
+  <!-- Browser Top Bar -->
+  <rect width="1280" height="40" fill="#2d2d44"/>
+  <circle cx="20" cy="20" r="6" fill="#ff5f57"/>
+  <circle cx="40" cy="20" r="6" fill="#febc2e"/>
+  <circle cx="60" cy="20" r="6" fill="#28c840"/>
+  <rect x="100" y="10" width="400" height="20" rx="4" fill="#1a1a2e"/>
+  <text x="120" y="25" font-family="Arial" font-size="12" fill="#888">youtube.com/watch?v=...</text>
+  
+  <!-- YouTube Area (left side) -->
+  <rect x="0" y="40" width="920" height="760" fill="#0f0f0f"/>
+  
+  <!-- Video Player Area -->
+  <rect x="20" y="60" width="880" height="495" fill="#000" rx="8"/>
+  <text x="460" y="320" font-family="Arial" font-size="48" fill="#333" text-anchor="middle">▶</text>
+  
+  <!-- Video Title -->
+  <text x="20" y="590" font-family="Arial" font-size="20" fill="#fff" font-weight="bold">Wonderwall - Oasis</text>
+  <text x="20" y="615" font-family="Arial" font-size="14" fill="#aaa">Oasis Official • 850M views • 8 years ago</text>
+  
+  <!-- LyricsIO Panel -->
+  <rect x="930" y="50" width="340" height="700" rx="12" fill="#1e1e2e"/>
+  
+  <!-- Panel Header -->
+  <rect x="930" y="50" width="340" height="50" rx="12" fill="#252536"/>
+  <circle cx="960" cy="75" r="15" fill="#ff6b6b"/>
+  <polygon points="955,68 955,82 968,75" fill="white"/>
+  <text x="985" y="82" font-family="Arial" font-size="18" fill="#ff6b6b" font-weight="bold">LyricsIO</text>
+  
+  <!-- Header buttons -->
+  <text x="1200" y="80" font-family="Arial" font-size="16" fill="#666">↻</text>
+  <text x="1225" y="80" font-family="Arial" font-size="16" fill="#666">−</text>
+  <text x="1250" y="80" font-family="Arial" font-size="16" fill="#666">×</text>
+  
+  <!-- Song Title in Panel -->
+  <text x="950" y="130" font-family="Arial" font-size="12" fill="#888">Wonderwall - Oasis</text>
+  
+  <!-- Tab Switcher -->
+  <rect x="930" y="140" width="340" height="40" fill="#252536"/>
+  <defs>
+    <linearGradient id="tabGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#feca57"/>
+    </linearGradient>
+  </defs>
+  <rect x="945" y="150" width="80" height="30" rx="6" fill="#333"/>
+  <text x="955" y="170" font-family="Arial" font-size="11" fill="#666">📝 Lyrics</text>
+  
+  <rect x="1035" y="150" width="80" height="30" rx="6" fill="url(#tabGrad)"/>
+  <text x="1045" y="170" font-family="Arial" font-size="11" fill="#1a1a2e" font-weight="bold">🎸 Tabs</text>
+  
+  <!-- Tabs Content with Chords -->
+  <text x="950" y="220" font-family="Arial" font-size="12" fill="#feca57" font-weight="bold">[Verse 1]</text>
+  
+  <!-- Chord line 1 -->
+  <text x="950" y="250" font-family="Courier New" font-size="11" fill="#feca57" font-weight="bold">Em          D          G          D</text>
+  
+  <!-- Lyrics line 1 -->
+  <text x="950" y="275" font-family="Arial" font-size="14" fill="#ccc">Today is gonna be the day</text>
+  
+  <!-- Chord line 2 -->
+  <text x="950" y="305" font-family="Courier New" font-size="11" fill="#feca57" font-weight="bold">Em          D          G          D</text>
+  
+  <!-- Lyrics line 2 -->
+  <text x="950" y="330" font-family="Arial" font-size="14" fill="#ccc">That they're gonna throw it back to you</text>
+  
+  <!-- Chord line 3 -->
+  <text x="950" y="360" font-family="Courier New" font-size="11" fill="#feca57" font-weight="bold">Em          D          G          D</text>
+  
+  <!-- Lyrics line 3 -->
+  <text x="950" y="385" font-family="Arial" font-size="14" fill="#ccc">By now you should've somehow</text>
+  
+  <!-- Chord line 4 -->
+  <text x="950" y="415" font-family="Courier New" font-size="11" fill="#feca57" font-weight="bold">Em          D          G          D</text>
+  
+  <!-- Lyrics line 4 -->
+  <text x="950" y="440" font-family="Arial" font-size="14" fill="#ccc">Realized what you gotta do</text>
+  
+  <text x="950" y="470" font-family="Arial" font-size="12" fill="#feca57" font-weight="bold">[Chorus]</text>
+  
+  <!-- Chord line 5 -->
+  <text x="950" y="500" font-family="Courier New" font-size="11" fill="#feca57" font-weight="bold">G          D          Em          D</text>
+  
+  <!-- Lyrics line 5 -->
+  <text x="950" y="525" font-family="Arial" font-size="14" fill="#ccc">I don't believe that anybody</text>
+  
+  <!-- Chord line 6 -->
+  <text x="950" y="555" font-family="Courier New" font-size="11" fill="#feca57" font-weight="bold">G          D          Em          D</text>
+  
+  <!-- Lyrics line 6 -->
+  <text x="950" y="580" font-family="Arial" font-size="14" fill="#ccc">Feels the way I do about you now</text>
+  
+  <!-- Bottom Buttons -->
+  <defs>
+    <linearGradient id="btnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ff8e53"/>
+    </linearGradient>
+  </defs>
+  <rect x="945" y="640" width="100" height="36" rx="6" fill="url(#btnGrad)"/>
+  <text x="965" y="663" font-family="Arial" font-size="11" fill="white">🎤 AI Generate</text>
+  
+  <rect x="1055" y="640" width="60" height="36" rx="6" fill="#333"/>
+  <text x="1070" y="663" font-family="Arial" font-size="12" fill="#ccc">Online</text>
+  
+  <rect x="1125" y="640" width="60" height="36" rx="6" fill="url(#tabGrad)"/>
+  <text x="1135" y="663" font-family="Arial" font-size="11" fill="#1a1a2e" font-weight="bold">🎸 AI</text>
+  
+  <!-- Powered by AI -->
+  <text x="1100" y="720" font-family="Arial" font-size="11" fill="#666" text-anchor="middle">Powered by AI</text>
+  
+  <!-- Feature highlight badge -->
+  <rect x="950" y="200" width="200" height="30" rx="15" fill="rgba(254,202,87,0.2)"/>
+  <text x="1050" y="220" font-family="Arial" font-size="11" fill="#feca57" text-anchor="middle" font-weight="bold">✨ NEW: Guitar Tabs with Chords</text>
+</svg>
